@@ -1,0 +1,146 @@
+(q3p2) kambam@MacBook-Air-123 q3_p2 % python run_mc_blp.py
+/Users/kambam/.conda/envs/q3p2/lib/python3.11/site-packages/keras/src/export/tf2onnx_lib.py:8: FutureWarning: In the future `np.object` will be defined as the corresponding NumPy scalar.
+  if not hasattr(np, "object"):
+Running BLP with cost IV
+[DGP1 | cost] replication 1/50
+[DGP1 | cost] replication 2/50
+[DGP1 | cost] replication 3/50
+[DGP1 | cost] replication 4/50
+[DGP1 | cost] replication 5/50
+[DGP1 | cost] replication 6/50
+[DGP1 | cost] replication 7/50
+[DGP1 | cost] replication 8/50
+[DGP1 | cost] replication 9/50
+[DGP1 | cost] replication 10/50
+[DGP1 | cost] replication 11/50
+[DGP1 | cost] replication 12/50
+[DGP1 | cost] replication 13/50
+[DGP1 | cost] replication 14/50
+[DGP1 | cost] replication 15/50
+[DGP1 | cost] replication 16/50
+[DGP1 | cost] replication 17/50
+[DGP1 | cost] replication 18/50
+[DGP1 | cost] replication 19/50
+[DGP1 | cost] replication 20/50
+[DGP1 | cost] replication 21/50
+[DGP1 | cost] replication 22/50
+[DGP1 | cost] replication 23/50
+[DGP1 | cost] replication 24/50
+[DGP1 | cost] replication 25/50
+[DGP1 | cost] replication 26/50
+[DGP1 | cost] replication 27/50
+[DGP1 | cost] replication 28/50
+[DGP1 | cost] replication 29/50
+[DGP1 | cost] replication 30/50
+[DGP1 | cost] replication 31/50
+[DGP1 | cost] replication 32/50
+[DGP1 | cost] replication 33/50
+[DGP1 | cost] replication 34/50
+[DGP1 | cost] replication 35/50
+[DGP1 | cost] replication 36/50
+[DGP1 | cost] replication 37/50
+[DGP1 | cost] replication 38/50
+[DGP1 | cost] replication 39/50
+[DGP1 | cost] replication 40/50
+[DGP1 | cost] replication 41/50
+[DGP1 | cost] replication 42/50
+[DGP1 | cost] replication 43/50
+[DGP1 | cost] replication 44/50
+[DGP1 | cost] replication 45/50
+[DGP1 | cost] replication 46/50
+[DGP1 | cost] replication 47/50
+[DGP1 | cost] replication 48/50
+[DGP1 | cost] replication 49/50
+[DGP1 | cost] replication 50/50
+Running BLP without cost IV
+[DGP1 | nocost] replication 1/50
+[DGP1 | nocost] replication 2/50
+[DGP1 | nocost] replication 3/50
+[DGP1 | nocost] replication 4/50
+[DGP1 | nocost] replication 5/50
+[DGP1 | nocost] replication 6/50
+[DGP1 | nocost] replication 7/50
+[DGP1 | nocost] replication 8/50
+[DGP1 | nocost] replication 9/50
+[DGP1 | nocost] replication 10/50
+[DGP1 | nocost] replication 11/50
+[DGP1 | nocost] replication 12/50
+[DGP1 | nocost] replication 13/50
+[DGP1 | nocost] replication 14/50
+[DGP1 | nocost] replication 15/50
+[DGP1 | nocost] replication 16/50
+[DGP1 | nocost] replication 17/50
+[DGP1 | nocost] replication 18/50
+[DGP1 | nocost] replication 19/50
+[DGP1 | nocost] replication 20/50
+[DGP1 | nocost] replication 21/50
+[DGP1 | nocost] replication 22/50
+[DGP1 | nocost] replication 23/50
+[DGP1 | nocost] replication 24/50
+[DGP1 | nocost] replication 25/50
+[DGP1 | nocost] replication 26/50
+[DGP1 | nocost] replication 27/50
+[DGP1 | nocost] replication 28/50
+[DGP1 | nocost] replication 29/50
+[DGP1 | nocost] replication 30/50
+[DGP1 | nocost] replication 31/50
+[DGP1 | nocost] replication 32/50
+[DGP1 | nocost] replication 33/50
+[DGP1 | nocost] replication 34/50
+[DGP1 | nocost] replication 35/50
+[DGP1 | nocost] replication 36/50
+[DGP1 | nocost] replication 37/50
+[DGP1 | nocost] replication 38/50
+[DGP1 | nocost] replication 39/50
+[DGP1 | nocost] replication 40/50
+[DGP1 | nocost] replication 41/50
+[DGP1 | nocost] replication 42/50
+[DGP1 | nocost] replication 43/50
+[DGP1 | nocost] replication 44/50
+[DGP1 | nocost] replication 45/50
+[DGP1 | nocost] replication 46/50
+[DGP1 | nocost] replication 47/50
+[DGP1 | nocost] replication 48/50
+[DGP1 | nocost] replication 49/50
+[DGP1 | nocost] replication 50/50
+
+=== TABLE 1 CELL ===
+BLP + cost IV: 
+{'sigma': 
+{
+    'mean': np.float64(1.5112192749778959), 
+    'bias': np.float64(0.011219274977895877), 
+    'sd': np.float64(0.13092320652919773)
+}, 
+'beta_p': 
+{
+    'mean': np.float64(-1.0223903979335616), 
+    'bias': np.float64(-0.022390397933561568), 
+    'sd': np.float64(0.08160530296508062)
+}, 
+'beta_w': 
+{
+    'mean': np.float64(0.4788920918910833), 
+    'bias': np.float64(-0.021107908108916718), 
+    'sd': np.float64(0.12785612124990525)}
+}
+
+BLP - cost IV: 
+{'sigma': 
+{
+    'mean': np.float64(1.9367559681697615), 
+    'bias': np.float64(0.4367559681697615), 
+    'sd': np.float64(1.3212937475924793)
+}, 
+'beta_p': 
+{
+    'mean': np.float64(-1.281946624823153), 
+    'bias': np.float64(-0.281946624823153), 
+    'sd': np.float64(1.306417610282039)
+}, 
+'beta_w': 
+{
+    'mean': np.float64(0.5378766267237466), 
+    'bias': np.float64(0.03787662672374659), 
+    'sd': np.float64(0.3901646402996227)}
+}
