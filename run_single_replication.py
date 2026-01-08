@@ -5,8 +5,8 @@
 import numpy as np
 from simulation.config import SimConfig
 from simulation.simulate import simulate_dataset
-from blp import estimate_blp_sigma
-from shrinkage import estimate_shrinkage_sigma
+from estimators.blp import estimate_blp_sigma
+from estimators.shrinkage import estimate_shrinkage_sigma
 
 
 def main():
@@ -24,7 +24,6 @@ def main():
     # simulate data
     markets = simulate_dataset(DGP, T=T, J=J, cfg=cfg)
 
-    # quick sanity checks
     s0 = 1 - markets[0]["s"].sum()
     corr_px = np.corrcoef(markets[0]["p"], markets[0]["xi"])[0, 1]
 

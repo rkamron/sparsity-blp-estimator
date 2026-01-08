@@ -1,27 +1,35 @@
 """
-Run Monte Carlo simulations for BLP estimation.
-Simulates a dataset under a chose DGP, 
-run the BLP estimator with a chosen IV, 
-aggreagate estimates into mean, bias, and stdev.
+Run Monte Carlo simulations for multiple estimators (BLP + IV, BLP − IV, Shrinkage).
+Simulates a dataset under a chosen DGP,
+runs the BLP estimator with a chosen IV,
+runs the Shrinkage estimator,
+aggregates estimates into mean, bias, and stdev.
 """
 
 import numpy as np
 
 from simulation.config import SimConfig
 from simulation.simulate import simulate_dataset
-from blp import estimate_blp_sigma
+from estimators.blp import estimate_blp_sigma
+from estimators.shrinkage import estimate_shrinkage_sigma
 
-def init_storage(R):
+def init_storage(R, include_shrinkage=False):
     """
     Pre-allocate arrays to store parameter estimates across all monte carlo loops.
     
     :param R: Number of replications
+    :param include_shrinkage: Whether to include storage for shrinkage estimator results
     """
-    return {
+    storage = {
         "sigma": np.zeros(R),
         "beta_p": np.zeros(R),
         "beta_w": np.zeros(R),
     }
+    if include_shrinkage:
+        storage["sigma_shrink"] = np.zeros(R)
+        storage["beta_p_shrink"] = np.zeros(R)
+        storage["beta_w_shrink"] = np.zeros(R)
+    return storage
 
 def run_mc_cell(
     DGP,
@@ -29,7 +37,8 @@ def run_mc_cell(
     J,
     R_mc=50,
     iv_type="cost",
-    seed=123
+    seed=123,
+    run_shrinkage=False
 ):
     """
     One Monte Carlo cell for BLP estimation.
@@ -40,12 +49,13 @@ def run_mc_cell(
     :param R_mc: Number of Monte Carlo runs
     :param iv_type: BLP estimation type, with or without IV
     :param seed: 
+    :param run_shrinkage: Whether to run shrinkage estimator
     """
     np.random.seed(seed)
     cfg = SimConfig()
 
-    # Prepare arrays for σ̂, β̂_p, β̂_w
-    results = init_storage(R_mc)
+    # Prepare arrays for σ̂, β̂_p, β̂_w (and shrinkage if requested)
+    results = init_storage(R_mc, include_shrinkage=run_shrinkage)
 
     # Monte Carlo loop
     # 1. simulate dataset
@@ -67,6 +77,16 @@ def run_mc_cell(
         results["beta_p"][r] = beta_hat[1]  # price coefficient
         results["beta_w"][r] = beta_hat[2]  # characteristic coefficient
 
+        if run_shrinkage:
+            sigma_s, beta_s, _, _ = estimate_shrinkage_sigma(
+                markets,
+                R=cfg.R0,
+                n_iter=200,
+                burn=100
+            )
+            results["sigma_shrink"][r]  = sigma_s
+            results["beta_p_shrink"][r] = beta_s[1]
+            results["beta_w_shrink"][r] = beta_s[2]
 
         print(f"[{DGP} | {iv_type}] replication {r+1}/{R_mc}")
 
@@ -79,34 +99,31 @@ def summarize_mc(results, cfg):
     mean: average estimate across loops
     bias: mean - true value
     sd: monte carlo dispersion
-    {
-        "sigma": {"mean": ..., "bias": ..., "sd": ...},
-        "beta_p": {"mean": ..., "bias": ..., "sd": ...},
-        "beta_w": {"mean": ..., "bias": ..., "sd": ...},
-    }
     
     :param results: Raw monte carlo results
     :param cfg: Configuration object
     """
-    summary = {"sigma": {}, "beta_p": {}, "beta_w": {}}
-    for k in summary.keys():
-        est = results[k]
+    summary = {}
+    for k, est in results.items():
+        true_name = k.replace("_shrink", "")
         summary[k] = {
             "mean": np.mean(est),
-            "bias": np.mean(est) - getattr(cfg, f"{k}_star"),
+            "bias": np.mean(est) - getattr(cfg, f"{true_name}_star"),
             "sd": np.std(est, ddof=1),
         }
     return summary
 
 def run_table1_cell():
     """
-    Running a row of Table 1 with the configs below.
+    Running a row of Table 1 with the configs below, including BLP + IV, BLP - IV, and Shrinkage.
+
+    Adjust DGP, T, J as needed.
     """
     cfg = SimConfig()
 
-    DGP = "DGP1"
-    T = 25
-    J = 15
+    DGP = "DGP1"    # options: DGP1, DGP2, DGP3, DGP4
+    T = 25          # number of markets
+    J = 15          # number of products per market
 
     print("Running BLP with cost IV")
     res_cost = run_mc_cell(
@@ -124,13 +141,23 @@ def run_table1_cell():
         iv_type="nocost"
     )
 
+    print("Running Shrinkage (no IV)")
+    res_shrink = run_mc_cell(
+        DGP=DGP,
+        T=T,
+        J=J,
+        iv_type="nocost",
+        run_shrinkage=True
+    )
+
     sum_cost   = summarize_mc(res_cost, cfg)
     sum_nocost = summarize_mc(res_nocost, cfg)
+    sum_shrink = summarize_mc(res_shrink, cfg)
 
     print("\n=== TABLE 1 CELL ===")
     print("BLP + cost IV:", sum_cost)
     print("BLP - cost IV:", sum_nocost)
+    print("Shrinkage:", sum_shrink)
 
 if __name__ == "__main__":
     run_table1_cell()
-

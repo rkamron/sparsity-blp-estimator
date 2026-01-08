@@ -1,7 +1,7 @@
 # Quick test for BLP estimation on simulated data based on DGP1 from the BLP paper.
 
 import numpy as np
-import blp  
+import estimators.blp as blp  
 from types import SimpleNamespace
 
 # 1. Setup Configuration based on Paper (Section 4.1)

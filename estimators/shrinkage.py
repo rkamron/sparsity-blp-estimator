@@ -1,6 +1,6 @@
 # shrinkage.py
 import numpy as np
-from blp import invert_delta_contraction, build_matrices
+from estimators.blp import invert_delta_contraction, build_matrices
 
 def _log_norm_pdf(x, var):
     # log N(x;0,var)
